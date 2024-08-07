@@ -35,7 +35,7 @@ const UserSchema=new Schema({
         type:String,
         required:true
     },
-    coverimage:{
+    coverImage:{
         type:String,
 
     },
@@ -58,7 +58,7 @@ const UserSchema=new Schema({
 
 UserSchema.pre("save",async function (next){
     if(!this.isModified("password")) return next()
-    this.password=bcrypt.hash(this.password,10);
+    this.password=await bcrypt.hash(this.password,10);
     next()
 })
 
@@ -66,7 +66,7 @@ UserSchema.methods.isPasswordCorrect=async function(password){
     return await bcrypt.compare(password,this.password)
 }
 
-UserSchema.methods.generateAccessToken()=function(){
+UserSchema.methods.generateAccessToken=function(){
     return jwt.sign({
         _id:this._id,
         email:this.email,
@@ -80,7 +80,7 @@ UserSchema.methods.generateAccessToken()=function(){
 )
 }
 
-UserSchema.methods.generateRefershToken()=function(){
+UserSchema.methods.generateRefershToken=function(){
     return jwt.sign({
         _id:this._id,
         email:this.email,
