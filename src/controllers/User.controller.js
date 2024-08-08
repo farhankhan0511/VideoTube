@@ -174,7 +174,7 @@ const logoutuser=asyncHnadler(
     async(req,res)=>{
         //clear the cookies
         //remove refershToken from db
-        await User.findByIdAndDelete(req.user._id,{
+        await User.findByIdAndUpdate(req.user._id,{
             $set:{refreshToken:undefined
 
             }
@@ -238,4 +238,96 @@ const refreshAccessToken = asyncHnadler(async(req,res)=>{
 })
 
 
-export {registerUser,loginUser,logoutuser,refreshAccessToken}
+const changeCurrentPassword=asyncHnadler(async(req,res)=>{
+
+    const {oldPassword,newPassword}=req.body
+    const user= await User.findById(req.user?._id)
+    const isPassword=await user.isPasswordCorrect(oldPassword)
+
+    if(!isPassword){
+        throw new ApiError(400,"Invalid Password")
+
+    }
+
+    user.password=newPassword
+    await user.save({validateBeforeSave:false})
+
+
+    return res.status(200).json(
+        new ApiResponse(200,{},"Password Changed Successfully")
+    )
+
+})
+
+const getcurrentUser=asyncHnadler(async(req,res)=>{
+    
+    return res.status(200).json(
+        new ApiResponse(200,req.user,"Current user fetched successfully")
+    )
+    
+})
+
+const updateAccountdetails=asyncHnadler(async(req,res)=>{
+    const {email,fullname}=req.body
+    if(!email || !fullname){
+        throw new ApiError(400,"Please provide email or fullname")
+    }
+    
+    const user=await User.findByIdAndUpdate(req.user._id,{
+        email:email,
+        fullname:fullname
+    },
+{new:true}).select("-password")
+
+    return res.status(200).json(new ApiResponse(200,user,"Account details updated successfully"))
+
+})
+
+const updateUserAvatar=asyncHnadler(async(req,res)=>{
+    const avatarloacalpath=req.file?.path
+    if(!avatarloacalpath){
+        throw new ApiError(400,"avatar file is missing")
+    }
+    const avatar=await uploadfileoncloudinary(avatarloacalpath)
+
+    if(!avatar.url){
+        throw new ApiError(500,"Error while uploading on avatar")
+    }
+    const user=await User.findByIdAndUpdate(req.user?._id,{
+       $set:{
+        avatar:avatar.url
+       }
+    },{
+        new:true
+    }).select("-password ")
+
+    return res.status(200).json(
+        new ApiResponse(200,user,"Avatar updated successfully")
+    )
+})
+
+const updateUsercoverImage=asyncHnadler(async(req,res)=>{
+    const coverImageloacalpath=req.file?.path
+    if(!coverImageloacalpath){
+        throw new ApiError(400,"CoverImage file is missing")
+    }
+    const coverImage=await uploadfileoncloudinary(coverImageloacalpath)
+
+    if(!coverImage.url){
+        throw new ApiError(500,"Error uploading on coverImage")
+    }
+    const user=await User.findByIdAndUpdate(req.user?._id,{
+       $set:{
+        coverImage:coverImage.url
+       }
+    },{
+        new:true
+    }).select("-password")
+
+    return res.status(200).json(
+        new ApiResponse(200,user,"coverImage updated successfully")
+    )
+})
+
+
+export {registerUser,loginUser,logoutuser,refreshAccessToken,getcurrentUser,changeCurrentPassword,updateAccountdetails,updateUserAvatar,updateUsercoverImage}

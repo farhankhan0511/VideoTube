@@ -28,7 +28,10 @@
             return null;
         }
     }
+    const removefromCloudinary=async(publicid)=>{
+        cloudinary.uploader.destroy(publicid)
+    }
     
     
     
-    export {uploadfileoncloudinary}
+    export {uploadfileoncloudinary,removefromCloudinary}
