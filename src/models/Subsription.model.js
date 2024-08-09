@@ -3,11 +3,11 @@ import mongoose from "mongoose";
 
 const SubsriptionSchema=new Schema({
 
-    subscribers:{
+    subscriber:{
         type:Schema.Types.ObjectId,
         ref:"User"
     },
-    channelOwner:{
+    channel:{
 type:Schema.Types.ObjectId,
 ref:"User"
     },

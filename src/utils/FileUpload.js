@@ -3,6 +3,7 @@
 
     import {v2 as cloudinary} from "cloudinary"
     import fs from "fs"
+import { ApiError } from "./ApiError.js";
     
     
     cloudinary.config({ 
@@ -28,8 +29,19 @@
             return null;
         }
     }
-    const removefromCloudinary=async(publicid)=>{
-        cloudinary.uploader.destroy(publicid)
+
+    const removefromCloudinary=async(url)=>{
+        const extractPublicId = (url) => {
+            const regex = /\/(?:image|video)\/upload(?:\/v\d+)?\/([^\/\.]+)/;
+            const match = url.match(regex);
+            return match ? match[1] : null;
+        };
+      try {
+         const  publicid=extractPublicId(url)
+         await cloudinary.uploader.destroy(publicid)
+      } catch (error) {
+        throw ApiError(500,{},"Error in deleting the cloudeinary file")
+      }
     }
     
     
