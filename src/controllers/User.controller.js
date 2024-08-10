@@ -262,7 +262,7 @@ const changeCurrentPassword=asyncHnadler(async(req,res)=>{
 })
 
 const getcurrentUser=asyncHnadler(async(req,res)=>{
-    
+    console.log(req.user)
     return res.status(200).json(
         new ApiResponse(200,req.user,"Current user fetched successfully")
     )

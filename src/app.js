@@ -26,6 +26,15 @@ import userRouter from './routes/User.routes.js'
 
 app.use("/users",userRouter)
 
+import videoRouter from './routes/Video.routes.js'
+
+
+app.use("/videos",videoRouter)
+
+import tweetsRouter from './routes/Tweet.router.js'
+app.use("/Tweets",tweetsRouter)
+
+
 
 
 
