@@ -21,18 +21,26 @@ app.use(cookieParser())
 //routes import
 
 import userRouter from './routes/User.routes.js'
+import videoRouter from './routes/Video.routes.js'
+import commentsrouter from './routes/Comments.router.js'
+
+import tweetsRouter from './routes/Tweet.router.js'
+import likesrouter from './routes/Likes.router.js'
 
 // routes declaration
 
 app.use("/users",userRouter)
 
-import videoRouter from './routes/Video.routes.js'
 
 
 app.use("/videos",videoRouter)
 
-import tweetsRouter from './routes/Tweet.router.js'
+app.use("/videos",commentsrouter)
+app.use("/videos",likesrouter)
 app.use("/Tweets",tweetsRouter)
+app.use("/Tweets",likesrouter)
+
+
 
 
 

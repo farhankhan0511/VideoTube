@@ -18,7 +18,7 @@ router.route("/videoupload").post(verifyJWT,upload.fields([
 
 router.route("/TogglePublishStatus").post(TogglePublishStatus)
 router.route("/deletevideo").post(DeleteVideo)
-router.route("/UpdateVideo").post(upload.single("thumbnail"),UpdateVideo)
+router.route("/UpdateVideo").patch(upload.single("thumbnail"),UpdateVideo)
 
 
 export default router;
