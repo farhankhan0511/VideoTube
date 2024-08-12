@@ -17,7 +17,7 @@ router.route("/videoupload").post(verifyJWT,upload.fields([
 ]),UploadVideo)
 
 router.route("/TogglePublishStatus").post(TogglePublishStatus)
-router.route("/deletevideo").post(DeleteVideo)
+router.route("/deletevideo").delete(DeleteVideo)
 router.route("/UpdateVideo").patch(upload.single("thumbnail"),UpdateVideo)
 
 

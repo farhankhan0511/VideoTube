@@ -26,6 +26,7 @@ import commentsrouter from './routes/Comments.router.js'
 
 import tweetsRouter from './routes/Tweet.router.js'
 import likesrouter from './routes/Likes.router.js'
+import playlistrouter from "./routes/Playlist.routes.js"
 
 // routes declaration
 
@@ -39,6 +40,8 @@ app.use("/videos",commentsrouter)
 app.use("/videos",likesrouter)
 app.use("/Tweets",tweetsRouter)
 app.use("/Tweets",likesrouter)
+app.use("/Playlist",playlistrouter)
+
 
 
 

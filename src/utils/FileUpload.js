@@ -4,6 +4,7 @@
     import {v2 as cloudinary} from "cloudinary"
     import fs from "fs"
 import { ApiError } from "./ApiError.js";
+import {extractPublicId} from "cloudinary-build-url"
     
     
     cloudinary.config({ 
@@ -21,6 +22,7 @@ import { ApiError } from "./ApiError.js";
             })
             // file has been uploaded successfull
             console.log("file is uploaded on cloudinary ", response.url);
+            
             fs.unlinkSync(localFilePath)
             return response;
     
@@ -30,15 +32,11 @@ import { ApiError } from "./ApiError.js";
         }
     }
 
-    const removefromCloudinary=async(url)=>{
-        const extractPublicId = (url) => {
-            const regex = /\/(?:image|video)\/upload(?:\/v\d+)?\/([^\/\.]+)/;
-            const match = url.match(regex);
-            return match ? match[1] : null;
-        };
+    const removefromCloudinary=async(publicid,resource_type)=>{
+        
       try {
-         const  publicid=extractPublicId(url)
-         await cloudinary.uploader.destroy(publicid)
+         
+        await cloudinary.uploader.destroy(publicid,{resource_type:resource_type})
       } catch (error) {
         throw ApiError(500,{},"Error in deleting the cloudeinary file")
       }

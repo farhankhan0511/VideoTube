@@ -11,7 +11,7 @@ const PlaylistSchema=new mongoose.Schema({
         required:true,
         maxlength:8000
     },
-    owner:{
+    Owner:{
         type:mongoose.Schema.Types.ObjectId,
         ref:"User",
         required:true
@@ -24,3 +24,5 @@ const PlaylistSchema=new mongoose.Schema({
     ]
 },
     {timestamps:true})
+
+export const Playlist=mongoose.model("Playlist",PlaylistSchema)
