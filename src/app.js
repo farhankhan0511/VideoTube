@@ -22,13 +22,13 @@ app.use(cookieParser())
 
 import userRouter from './routes/User.routes.js'
 import videoRouter from './routes/Video.routes.js'
-import commentsrouter from './routes/Comments.router.js'
+import commentsrouter from './routes/Comments.routes.js'
 
 import tweetsRouter from './routes/Tweet.router.js'
 import likesrouter from './routes/Likes.router.js'
 import playlistrouter from "./routes/Playlist.routes.js"
 import subscriptionrouter from "./routes/Subscription.routes.js"
-
+import dashboardrouter from "./routes/Dashboard.routes.js"
 // routes declaration
 
 app.use("/users",userRouter)
@@ -43,6 +43,7 @@ app.use("/Tweets",tweetsRouter)
 app.use("/Tweets",likesrouter)
 app.use("/Playlist",playlistrouter)
 app.use("/Channel",subscriptionrouter)
+app.use("/channel",dashboardrouter)
 
 
 export default app;
